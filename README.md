@@ -1,6 +1,4 @@
-# Elysium
-Gelişmiş Discord Botu
-# --- Gelişmiş .çark (Çarkıfelek) Komutu ---
+
 @bot.command(name="cark")
 async def cark_cmd1(ctx):
     await perform_cark(ctx)
@@ -26,7 +24,3 @@ async def perform_cark(ctx):
     sansli_sayi = random.choice(sayi_havuzu)
     embed_result = discord.Embed(title="🎡 Çark Döndü! 🎉", description=f"🔮 Şansına Gelen Sayı:\n\n# **{sansli_sayi}**\n\n*İyi şanslar dileriz!*", color=discord.Color.green())
     await roll_msg.edit(embed=embed_result)
-
-# --- Arka Planda Web Sunucusunu Başlat ve Botu Çalıştır ---
-keep_alive()
-bot.run('BURAYA_DISCORD_TOKENINI_YAZ')
