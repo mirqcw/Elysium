@@ -1,14 +1,17 @@
-@bot.command(name="cark")
-async def cark_cmd1(ctx):
-    await perform_cark(ctx)
+from discord.ext import commands
+import discord
+import asyncio
+import random
 
-@bot.command(name="çark")
-async def cark_cmd2(ctx):
-    await perform_cark(ctx)
+# Slash commands için gerekli
+from discord import app_commands
 
-async def perform_cark(ctx):
+@app_commands.command(name="çark", description="Çark çevir ve şanslı sayı kazanı! 🎡")
+async def cark_slash(interaction: discord.Interaction):
+    await interaction.response.defer()
+    
     embed_rolling = discord.Embed(title="🎡 Çark Döndürülüyor...", description="Şanslı sayı seçiliyor, lütfen bekleyin...", color=discord.Color.blue())
-    roll_msg = await ctx.send(embed=embed_rolling)
+    await interaction.followup.send(embed=embed_rolling)
     await asyncio.sleep(2)
 
     # 1 ve 6 sayılarından havuza sadece 1'er adet eklenirken, 
@@ -22,15 +25,14 @@ async def perform_cark(ctx):
 
     sansli_sayi = random.choice(sayi_havuzu)
     embed_result = discord.Embed(title="🎡 Çark Döndü! 🎉", description=f"🔮 Şansına Gelen Sayı:\n\n# **{sansli_sayi}**\n\n*İyi şanslar dileriz!*", color=discord.Color.green())
-    await roll_msg.edit(embed=embed_result)
+    await interaction.followup.send(embed=embed_result)
 
-@bot.command(name="ark")
-async def ark_cmd(ctx):
-    await perform_ark(ctx)
-
-async def perform_ark(ctx):
+@app_commands.command(name="ark", description="Ark çevir ve 1-10 arasında sayı kazanı! 🎲")
+async def ark_slash(interaction: discord.Interaction):
+    await interaction.response.defer()
+    
     embed_rolling = discord.Embed(title="🎡 Çark Döndürülüyor...", description="Sayı seçiliyor, lütfen bekleyin...", color=discord.Color.blue())
-    roll_msg = await ctx.send(embed=embed_rolling)
+    await interaction.followup.send(embed=embed_rolling)
     await asyncio.sleep(2)
     
     # 1-10 arasında sayılar, ama 3 çok nadir gelsin
@@ -43,4 +45,19 @@ async def perform_ark(ctx):
     
     sansli_sayi = random.choice(sayi_havuzu)
     embed_result = discord.Embed(title="🎡 Çark Döndü! 🎉", description=f"🔮 Şansına Gelen Sayı:\n\n# **{sansli_sayi}**\n\n*İyi şanslar dileriz!*", color=discord.Color.green())
-    await roll_msg.edit(embed=embed_result)
+    await interaction.followup.send(embed=embed_result)
+
+# Slash commands'u bot'a ekle
+async def setup(bot):
+    await bot.add_cog(CommandsCog(bot))
+
+class CommandsCog(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+
+    cark_slash = cark_slash
+    ark_slash = ark_slash
+
+# Bot'un ana dosyasında şunu ekle:
+# bot.tree.add_command(cark_slash)
+# bot.tree.add_command(ark_slash)
