@@ -19,7 +19,7 @@ pip install discord.py python-dotenv
 
 1. `.env` dosyası oluştur:
 ```
-DISCORD_TOKEN=SENIN_TOKEN_BURAYA
+MTUyNTU0NzQwMjgwMTU3ODExNg.GkKDDK.EtKeNfrd2hsJ2FqqCIeUZqBjewCTFda1E1_OFk=
 ```
 
 2. `.gitignore` dosyasına ekle (token güvenliği için):
