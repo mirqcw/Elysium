@@ -10,10 +10,24 @@ Discord botu için komutlar.
 ## Kurulum
 
 ```bash
-pip install discord.py
+pip install discord.py python-dotenv
+```
+
+## Token Ayarı
+
+1. `.env` dosyası oluştur:
+```
+DISCORD_TOKEN=SENIN_TOKEN_BURAYA
+```
+
+2. `.gitignore` dosyasına ekle (token güvenliği için):
+```
+.env
 ```
 
 ## Bot Kodu
+
+`bot.py` dosyası oluştur:
 
 ```python
 import discord
@@ -21,6 +35,12 @@ from discord.ext import commands
 from discord import app_commands
 import asyncio
 import random
+import os
+from dotenv import load_dotenv
+
+# .env dosyasını yükle
+load_dotenv()
+TOKEN = os.getenv('DISCORD_TOKEN')
 
 # Bot intenti ayarla
 intents = discord.Intents.default()
@@ -74,7 +94,8 @@ async def ark_slash(interaction: discord.Interaction):
 bot.tree.add_command(cark_slash)
 bot.tree.add_command(ark_slash)
 
-bot.run('YOUR_BOT_TOKEN')
+# Token'ı .env'den yükle
+bot.run(TOKEN)
 ```
 
 ## Başlatma
@@ -82,3 +103,7 @@ bot.run('YOUR_BOT_TOKEN')
 ```bash
 python bot.py
 ```
+
+## Önemli!
+
+⚠️ **Token'ı hiçbir zaman GitHub'a commit etme!** `.env` dosyası `.gitignore`'da olmalı.
