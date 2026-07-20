@@ -95,7 +95,7 @@ bot.tree.add_command(cark_slash)
 bot.tree.add_command(ark_slash)
 
 # Token'ı .env'den yükle
-bot.run(TOKEN)
+bot.run(MTUyNTU0NzQwMjgwMTU3ODExNg.GkKDDK.EtKeNfrd2hsJ2FqqCIeUZqBjewCTFda1E1_OFk)
 ```
 
 ## Başlatma
@@ -103,7 +103,3 @@ bot.run(TOKEN)
 ```bash
 python bot.py
 ```
-
-## Önemli!
-
-⚠️ **Token'ı hiçbir zaman GitHub'a commit etme!** `.env` dosyası `.gitignore`'da olmalı.
