@@ -2,10 +2,12 @@
 
 Discord botu için komutlar.
 
-## Slash Commands
+## Komutlar
 
-- `/çark` - Çark çevir ve şanslı sayı kazanı! 🎡
-- `/ark` - Ark çevir ve 1-10 arasında sayı kazanı! 🎲
+- `.çark` - Çark çevir ve şanslı sayı kazanı! 🎡
+- `.ark` - Ark çevir ve 1-10 arasında sayı kazanı! 🎲
+
+> Not: Bot prefix'i `.` şeklindedir; sohbette `.çark` veya `.ark` yazarak kullanabilirsiniz. (Ayrıca isterseniz aynı komutları slash komutları olarak da koruyabilirsiniz.)
 
 ## Kurulum
 
@@ -27,7 +29,7 @@ DISCORD_TOKEN=SENIN_TOKEN_BURAYA
 
 ## Bot Kodu
 
-`bot.py` dosyası oluştur:
+Aşağıdaki `bot.py` örneği hem prefix (metin) komutlarını (`.çark`, `.ark`) hem de isteğe bağlı olarak aynı isimdeki slash komutlarını içerir. Prefix komutlarını kullanmak için sunucuda kanala `.çark` yazmanız yeterlidir.
 
 ```python
 import discord
@@ -53,6 +55,7 @@ async def on_ready():
     await bot.tree.sync()
     print(f'{bot.user} olarak giriş yapıldı')
 
+# --- Slash komutları (isteğe bağlı) ---
 @app_commands.command(name="çark", description="Çark çevir ve şanslı sayı kazanı! 🎡")
 async def cark_slash(interaction: discord.Interaction):
     await interaction.response.defer()
@@ -63,9 +66,9 @@ async def cark_slash(interaction: discord.Interaction):
 
     sayi_havuzu = []
     for i in range(1, 11):
-        if i in [1, 6]: 
+        if i in [1, 6]:
             sayi_havuzu.append(i)
-        else: 
+        else:
             sayi_havuzu.extend([i] * 10)
 
     sansli_sayi = random.choice(sayi_havuzu)
@@ -94,8 +97,43 @@ async def ark_slash(interaction: discord.Interaction):
 bot.tree.add_command(cark_slash)
 bot.tree.add_command(ark_slash)
 
+# --- Prefix (metin) komutları: .çark ve .ark ---
+@bot.command(name="çark")
+async def cark(ctx: commands.Context):
+    embed_rolling = discord.Embed(title="🎡 Çark Döndürülüyor...", description="Şanslı sayı seçiliyor, lütfen bekleyin...", color=discord.Color.blue())
+    await ctx.send(embed=embed_rolling)
+    await asyncio.sleep(2)
+
+    sayi_havuzu = []
+    for i in range(1, 11):
+        if i in [1, 6]:
+            sayi_havuzu.append(i)
+        else:
+            sayi_havuzu.extend([i] * 10)
+
+    sansli_sayi = random.choice(sayi_havuzu)
+    embed_result = discord.Embed(title="🎡 Çark Döndü! 🎉", description=f"🔮 Şansına Gelen Sayı:\n\n# **{sansli_sayi}**\n\n*İyi şanslar dileriz!*", color=discord.Color.green())
+    await ctx.send(embed=embed_result)
+
+@bot.command(name="ark")
+async def ark(ctx: commands.Context):
+    embed_rolling = discord.Embed(title="🎡 Çark Döndürülüyor...", description="Sayı seçiliyor, lütfen bekleyin...", color=discord.Color.blue())
+    await ctx.send(embed=embed_rolling)
+    await asyncio.sleep(2)
+
+    sayi_havuzu = []
+    for i in range(1, 11):
+        if i == 3:
+            sayi_havuzu.append(i)
+        else:
+            sayi_havuzu.extend([i] * 10)
+
+    sansli_sayi = random.choice(sayi_havuzu)
+    embed_result = discord.Embed(title="🎡 Çark Döndü! 🎉", description=f"🔮 Şansına Gelen Sayı:\n\n# **{sansli_sayi}**\n\n*İyi şanslar dileriz!*", color=discord.Color.green())
+    await ctx.send(embed=embed_result)
+
 # Token'ı .env'den yükle
-bot.run(MTUyNTU0NzQwMjgwMTU3ODExNg.GkKDDK.EtKeNfrd2hsJ2FqqCIeUZqBjewCTFda1E1_OFk)
+bot.run(TOKEN)
 ```
 
 ## Başlatma
@@ -103,3 +141,7 @@ bot.run(MTUyNTU0NzQwMjgwMTU3ODExNg.GkKDDK.EtKeNfrd2hsJ2FqqCIeUZqBjewCTFda1E1_OFk
 ```bash
 python bot.py
 ```
+
+## Önemli!
+
+⚠️ **Token'ı hiçbir zaman GitHub'a commit etme!** `.env` dosyası `.gitignore`'da olmalı.
